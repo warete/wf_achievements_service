@@ -32,20 +32,22 @@ def achievements():
 
 @app.route('/api/parse_achievements', methods=['GET'])
 def parse_achievements():
+    response = {}
     if request.args.get('secret') == PARSE_ENDPOINT_SECRET:
         data = parser_run(OUT_DIR, BASE_URL, PARSE_ENDPOINT)
-        objects_count = len(data.mark) + len(data.strip) + len(data.badge)
-        response = {
-            'status': 'ok',
-            'message': 'objects count: ' + objects_count
-        }
-        return jsonify(response)
+        if data is None:
+            response['status'] = 'ok'
+            response['message'] = 'not modified'
+        else:
+            objects_count = len(data['mark']) + len(data['stripe']) + len(data['badge'])
+            response['status'] = 'ok'
+            response['message'] = 'objects count: ' + str(objects_count)
     else:
-        response = {
-            'status': 'error',
-            'message': 'access denied'
-        }
+        response['status'] = 'error'
+        response['message'] = 'access denied'
         return jsonify(response), 403
+
+    return jsonify(response)
 
 
 if __name__ == '__main__':
