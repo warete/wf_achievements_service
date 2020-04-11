@@ -31,7 +31,7 @@ def get_name_from_path(path):
     return pathlib.Path(path).name
 
 
-def download_image(to_dir, image_path):
+def download_image(to_dir, image_path, base_url):
     file_name = get_name_from_path(image_path)
     file_path = '/'.join([to_dir, file_name])
     if not os.path.exists(to_dir):
@@ -74,7 +74,7 @@ def run(out_dir, base_url, endpoint):
         os.makedirs(out_dir)
     for category in parsed_achievements:
         for i in range(len(parsed_achievements[category])):
-            image_path = download_image('/'.join([out_dir, category]), parsed_achievements[category][i]['image'])
+            image_path = download_image('/'.join([out_dir, category]), parsed_achievements[category][i]['image'], base_url)
             if image_path == False:
                 print('ERROR', parsed_achievements[category][i]['name'])
                 del parsed_achievements[category][i]
