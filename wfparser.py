@@ -100,7 +100,8 @@ def run(out_dir, base_url, endpoint):
                 os.makedirs(out_dir)
             for category in parsed_achievements:
                 for i in range(len(parsed_achievements[category])):
-                    image_path = '/'
+                    image_path = download_image('/'.join([out_dir, category]),
+                                                parsed_achievements[category][i]['image'], base_url)
                     if image_path == False:
                         print('ERROR', parsed_achievements[category][i]['name'])
                         del parsed_achievements[category][i]
