@@ -80,6 +80,9 @@ def run(out_dir, base_url, endpoint):
         'console': []
     }
 
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+
     if page.status_code == 200:
         soup = BeautifulSoup(page.text, "html.parser")
 
